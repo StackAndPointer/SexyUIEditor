@@ -1,0 +1,20 @@
+{
+    "class_name": "ImageBox",
+    "display_name": "图片框",
+    "description": "图片显示框(使用TodDrawImageScaledF绘制)",
+    "parent_class": "",
+    "is_container": false,
+    "properties": [
+        {"name": "mX", "prop_type": "int", "default": 0, "display_name": "X坐标", "category": "geometry", "tooltip": "图片框左上角的X坐标"},
+        {"name": "mY", "prop_type": "int", "default": 0, "display_name": "Y坐标", "category": "geometry", "tooltip": "图片框左上角的Y坐标"},
+        {"name": "mWidth", "prop_type": "int", "default": 100, "display_name": "宽度", "category": "geometry", "tooltip": "图片框的宽度"},
+        {"name": "mHeight", "prop_type": "int", "default": 100, "display_name": "高度", "category": "geometry", "tooltip": "图片框的高度"},
+        {"name": "mImage", "prop_type": "image", "default": "", "display_name": "图片", "category": "content", "tooltip": "显示的图片资源"},
+        {"name": "mScaleX", "prop_type": "float", "default": 1.0, "display_name": "X缩放", "category": "appearance", "tooltip": "X方向缩放比例"},
+        {"name": "mScaleY", "prop_type": "float", "default": 1.0, "display_name": "Y缩放", "category": "appearance", "tooltip": "Y方向缩放比例"},
+        {"name": "mStretch", "prop_type": "bool", "default": false, "display_name": "拉伸填充", "category": "appearance", "tooltip": "是否拉伸图片填充整个区域"}
+    ],
+    "source_code": "// ImageBox.cpp - Custom ImageBox Widget\n#include \"ImageBox.h\"\n#include \"TodCommon.h\"\n#include \"TodGraphics.h\"\n\nImageBox::ImageBox()\n{\n    mX = 0;\n    mY = 0;\n    mWidth = 100;\n    mHeight = 100;\n    mImage = nullptr;\n    mScaleX = 1.0f;\n    mScaleY = 1.0f;\n    mStretch = false;\n}\n\nvoid ImageBox::Draw(Graphics* g)\n{\n    if (mImage != nullptr)\n    {\n        if (mStretch)\n        {\n            float scaleX = (float)mWidth / mImage->GetWidth();\n            float scaleY = (float)mHeight / mImage->GetHeight();\n            TodDrawImageScaledF(g, mImage, (float)mX, (float)mY, scaleX, scaleY);\n        }\n        else\n        {\n            TodDrawImageScaledF(g, mImage, (float)mX, (float)mY, mScaleX, mScaleY);\n        }\n    }\n}\n",
+    "header_code": "// ImageBox.h - Custom ImageBox Widget\n#pragma once\n\n#include \"Widget.h\"\n#include \"Graphics.h\"\n#include \"Image.h\"\n\nclass ImageBox : public Widget\n{\npublic:\n    ImageBox();\n    virtual ~ImageBox() {}\n    \n    virtual void Draw(Graphics* g) override;\n    \n    // Properties\n    int mX;\n    int mY;\n    int mWidth;\n    int mHeight;\n    Image* mImage;\n    float mScaleX;\n    float mScaleY;\n    bool mStretch;\n};\n",
+    "platform": "cpp"
+}

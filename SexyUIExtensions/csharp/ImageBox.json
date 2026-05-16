@@ -1,0 +1,20 @@
+{
+    "class_name": "ImageBox",
+    "display_name": "图片框",
+    "description": "图片显示框(使用TodDrawImageScaledF绘制)",
+    "parent_class": "",
+    "is_container": false,
+    "properties": [
+        {"name": "mX", "prop_type": "int", "default": 0, "display_name": "X坐标", "category": "geometry", "tooltip": "图片框左上角的X坐标"},
+        {"name": "mY", "prop_type": "int", "default": 0, "display_name": "Y坐标", "category": "geometry", "tooltip": "图片框左上角的Y坐标"},
+        {"name": "mWidth", "prop_type": "int", "default": 100, "display_name": "宽度", "category": "geometry", "tooltip": "图片框的宽度"},
+        {"name": "mHeight", "prop_type": "int", "default": 100, "display_name": "高度", "category": "geometry", "tooltip": "图片框的高度"},
+        {"name": "mImage", "prop_type": "image", "default": "", "display_name": "图片", "category": "content", "tooltip": "显示的图片资源"},
+        {"name": "mScaleX", "prop_type": "float", "default": 1.0, "display_name": "X缩放", "category": "appearance", "tooltip": "X方向缩放比例"},
+        {"name": "mScaleY", "prop_type": "float", "default": 1.0, "display_name": "Y缩放", "category": "appearance", "tooltip": "Y方向缩放比例"},
+        {"name": "mStretch", "prop_type": "bool", "default": false, "display_name": "拉伸填充", "category": "appearance", "tooltip": "是否拉伸图片填充整个区域"}
+    ],
+    "source_code": "// ImageBox.cs - Custom ImageBox Widget\nusing System;\nusing Microsoft.Xna.Framework;\nusing Microsoft.Xna.Framework.Graphics;\nusing Sexy;\n\npublic class ImageBox : Widget\n{\n    public int mX;\n    public int mY;\n    public int mWidth;\n    public int mHeight;\n    public Image mImage;\n    public float mScaleX = 1.0f;\n    public float mScaleY = 1.0f;\n    public bool mStretch = false;\n\n    public ImageBox()\n    {\n        mX = 0;\n        mY = 0;\n        mWidth = 100;\n        mHeight = 100;\n    }\n\n    public override void Draw(Graphics g)\n    {\n        if (mImage != null)\n        {\n            if (mStretch)\n            {\n                float scaleX = (float)mWidth / mImage.mWidth;\n                float scaleY = (float)mHeight / mImage.mHeight;\n                g.DrawImageF(mImage, mX, mY, scaleX, scaleY);\n            }\n            else\n            {\n                g.DrawImageF(mImage, mX, mY, mScaleX, mScaleY);\n            }\n        }\n    }\n}\n",
+    "header_code": "",
+    "platform": "csharp"
+}

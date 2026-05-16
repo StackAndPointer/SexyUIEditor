@@ -1,0 +1,20 @@
+{
+    "class_name": "Label",
+    "display_name": "文本标签",
+    "description": "文本标签(使用TodDrawString绘制)",
+    "parent_class": "",
+    "is_container": false,
+    "properties": [
+        {"name": "mX", "prop_type": "int", "default": 0, "display_name": "X坐标", "category": "geometry", "tooltip": "标签左上角的X坐标"},
+        {"name": "mY", "prop_type": "int", "default": 0, "display_name": "Y坐标", "category": "geometry", "tooltip": "标签左上角的Y坐标"},
+        {"name": "mWidth", "prop_type": "int", "default": 100, "display_name": "宽度", "category": "geometry", "tooltip": "标签的宽度"},
+        {"name": "mHeight", "prop_type": "int", "default": 30, "display_name": "高度", "category": "geometry", "tooltip": "标签的高度"},
+        {"name": "mText", "prop_type": "string", "default": "", "display_name": "文本内容", "category": "content", "tooltip": "显示的文本"},
+        {"name": "mFont", "prop_type": "font", "default": "FONT_DWARVENTODCRAFT12", "display_name": "字体", "category": "content", "tooltip": "文本使用的字体"},
+        {"name": "mColor", "prop_type": "color", "default": "255,255,255", "display_name": "颜色", "category": "appearance", "tooltip": "文本颜色"},
+        {"name": "mJustify", "prop_type": "enum", "default": "LEFT", "display_name": "对齐方式", "enum_values": ["LEFT", "CENTER", "RIGHT"], "category": "content", "tooltip": "文本对齐方式"}
+    ],
+    "source_code": "// Label.cpp - Custom Label Widget\n#include \"Label.h\"\n\nLabel::Label()\n{\n    mX = 0;\n    mY = 0;\n    mWidth = 100;\n    mHeight = 30;\n    mText = \"\";\n    mFont = Font::FONT_DWARVENTODCRAFT12;\n    mColor = Color(255, 255, 255);\n    mJustify = Justification::LEFT;\n}\n\nvoid Label::Draw(Graphics* g)\n{\n    if (!mText.empty())\n    {\n        g->SetFont(mFont);\n        g->SetColor(mColor);\n        g->DrawString(mText, mX, mY, mWidth, mHeight, mJustify);\n    }\n}\n",
+    "header_code": "// Label.h - Custom Label Widget\n#pragma once\n\n#include \"Widget.h\"\n#include \"Graphics.h\"\n#include \"Font.h\"\n#include \"Color.h\"\n\nclass Label : public Widget\n{\npublic:\n    Label();\n    virtual ~Label() {}\n    \n    virtual void Draw(Graphics* g) override;\n    \n    // Properties\n    int mX;\n    int mY;\n    int mWidth;\n    int mHeight;\n    std::string mText;\n    Font* mFont;\n    Color mColor;\n    Justification mJustify;\n};\n",
+    "platform": "cpp"
+}
