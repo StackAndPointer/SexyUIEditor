@@ -162,7 +162,7 @@ Please read [CORE_ARCHITECTURE_EN.md](docs/CORE_ARCHITECTURE_EN.md) for architec
 
 ## Acknowledgments
 
-Special thanks to **PopCap Games** for open-sourcing the **Sexy framework**, which made this editor possible. The Sexy framework is a lightweight, efficient UI framework that powers Plants vs. Zombies and other PopCap games.
+Special thanks to **PopCap Games** for open-sourcing the **Sexy framework**, which made this editor possible. 
 
 ## License
 
@@ -177,8 +177,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-If you encounter any issues or have questions, please [open an issue](https://github.com/yourusername/SexyUIEditor/issues) on GitHub.
+If you encounter any issues or have questions, please [open an issue](https://github.com/StackAndPointer/SexyUIEditor/issues) on GitHub.
 
 ---
 
-**Note**: This editor is designed for the Sexy framework used in Plants vs. Zombies. Make sure you have the appropriate game resources and source code to use the generated code effectively.
+**Note**: This editor is designed for the Sexy framework used in Plants vs. Zombies. 
