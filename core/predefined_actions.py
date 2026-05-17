@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from dataclasses import dataclass, field
 from typing import List, Dict
+from core.i18n import tr
 
 
 @dataclass
@@ -16,312 +17,312 @@ class PredefinedAction:
 PREDEFINED_ACTIONS: Dict[str, PredefinedAction] = {
     "close_dialog": PredefinedAction(
         id="close_dialog",
-        name="关闭对话框",
-        description="关闭当前对话框（调用Close方法）",
+        name=tr("action.close_dialog", "Close Dialog"),
+        description=tr("action.close_dialog.desc", "Close the current dialog (calls Close method)"),
         category="dialog",
         code_template="Close();",
         required_params=[]
     ),
     "set_result_ok": PredefinedAction(
         id="set_result_ok",
-        name="设置结果为确认",
-        description="设置对话框结果为OK（Dialog::ID_OK）",
+        name=tr("action.set_result_ok", "Set Result OK"),
+        description=tr("action.set_result_ok.desc", "Set dialog result to OK (Dialog::ID_OK)"),
         category="dialog",
         code_template="mResult = Dialog::ID_OK;",
         required_params=[]
     ),
     "set_result_cancel": PredefinedAction(
         id="set_result_cancel",
-        name="设置结果为取消",
-        description="设置对话框结果为Cancel（Dialog::ID_CANCEL）",
+        name=tr("action.set_result_cancel", "Set Result Cancel"),
+        description=tr("action.set_result_cancel.desc", "Set dialog result to Cancel (Dialog::ID_CANCEL)"),
         category="dialog",
         code_template="mResult = Dialog::ID_CANCEL;",
         required_params=[]
     ),
     "confirm_and_close": PredefinedAction(
         id="confirm_and_close",
-        name="确认并关闭",
-        description="设置结果为OK并关闭对话框",
+        name=tr("action.confirm_and_close", "Confirm and Close"),
+        description=tr("action.confirm_and_close.desc", "Set result to OK and close dialog"),
         category="dialog",
         code_template="mResult = Dialog::ID_OK;\nClose();",
         required_params=[]
     ),
     "cancel_and_close": PredefinedAction(
         id="cancel_and_close",
-        name="取消并关闭",
-        description="设置结果为Cancel并关闭对话框",
+        name=tr("action.cancel_and_close", "Cancel and Close"),
+        description=tr("action.cancel_and_close.desc", "Set result to Cancel and close dialog"),
         category="dialog",
         code_template="mResult = Dialog::ID_CANCEL;\nClose();",
         required_params=[]
     ),
     "set_custom_result": PredefinedAction(
         id="set_custom_result",
-        name="设置自定义结果",
-        description="设置对话框的自定义结果值",
+        name=tr("action.set_custom_result", "Set Custom Result"),
+        description=tr("action.set_custom_result.desc", "Set a custom result value for the dialog"),
         category="dialog",
         code_template="mResult = {result_value};",
         required_params=["result_value"]
     ),
     "show_lawn_dialog": PredefinedAction(
         id="show_lawn_dialog",
-        name="显示LawnDialog",
-        description="显示一个带有标题、内容和按钮的对话框（需要手动处理关闭）",
+        name=tr("action.show_lawn_dialog", "Show LawnDialog"),
+        description=tr("action.show_lawn_dialog.desc", "Show a dialog with title, content and buttons (requires manual close)"),
         category="dialog",
         code_template="mApp->DoDialog({dialog_id}, {is_modal}, \"{header}\", \"{content}\", \"{footer}\", Dialog::{button_mode});",
         required_params=["dialog_id", "is_modal", "header", "content", "footer", "button_mode"]
     ),
     "show_confirm_dialog": PredefinedAction(
         id="show_confirm_dialog",
-        name="显示确认对话框(等待结果)",
-        description="显示一个确认/取消对话框并等待用户响应，返回后自动关闭",
+        name=tr("action.show_confirm_dialog", "Show Confirm Dialog (Wait)"),
+        description=tr("action.show_confirm_dialog.desc", "Show a confirm/cancel dialog and wait for response, auto-closes on return"),
         category="dialog",
         code_template="mApp->LawnMessageBox({dialog_id}, \"{header}\", \"{content}\", \"OK\", \"Cancel\", Dialog::BUTTONS_OK_CANCEL);",
         required_params=["dialog_id", "header", "content"]
     ),
     "show_yesno_dialog": PredefinedAction(
         id="show_yesno_dialog",
-        name="显示是/否对话框(等待结果)",
-        description="显示一个是/否对话框并等待用户响应，返回后自动关闭",
+        name=tr("action.show_yesno_dialog", "Show Yes/No Dialog (Wait)"),
+        description=tr("action.show_yesno_dialog.desc", "Show a yes/no dialog and wait for response, auto-closes on return"),
         category="dialog",
         code_template="mApp->LawnMessageBox({dialog_id}, \"{header}\", \"{content}\", \"Yes\", \"No\", Dialog::BUTTONS_YES_NO);",
         required_params=["dialog_id", "header", "content"]
     ),
     "show_message_dialog": PredefinedAction(
         id="show_message_dialog",
-        name="显示消息对话框(等待结果)",
-        description="显示一个消息对话框并等待用户点击，返回后自动关闭",
+        name=tr("action.show_message_dialog", "Show Message Dialog (Wait)"),
+        description=tr("action.show_message_dialog.desc", "Show a message dialog and wait for click, auto-closes on return"),
         category="dialog",
         code_template="mApp->LawnMessageBox({dialog_id}, \"{header}\", \"{content}\", \"OK\", \"\", Dialog::BUTTONS_FOOTER);",
         required_params=["dialog_id", "header", "content"]
     ),
     "show_simple_dialog": PredefinedAction(
         id="show_simple_dialog",
-        name="显示简单对话框",
-        description="显示一个简单对话框（不等待结果，需要手动关闭）",
+        name=tr("action.show_simple_dialog", "Show Simple Dialog"),
+        description=tr("action.show_simple_dialog.desc", "Show a simple dialog (does not wait, requires manual close)"),
         category="dialog",
         code_template="mApp->DoDialog({dialog_id}, true, \"{header}\", \"{content}\", \"\", Dialog::BUTTONS_NONE);",
         required_params=["dialog_id", "header", "content"]
     ),
     "play_sound": PredefinedAction(
         id="play_sound",
-        name="播放音效",
-        description="播放指定的音效",
+        name=tr("action.play_sound", "Play Sound"),
+        description=tr("action.play_sound.desc", "Play the specified sound effect"),
         category="sound",
         code_template="mApp->PlaySample(Sexy::SOUND_{sound_id});",
         required_params=["sound_id"]
     ),
     "show_builtin_interface": PredefinedAction(
         id="show_builtin_interface",
-        name="打开游戏内置界面",
-        description="打开游戏原有的内置界面（如主菜单、商店等）",
+        name=tr("action.show_builtin_interface", "Open Built-in Interface"),
+        description=tr("action.show_builtin_interface.desc", "Open a game built-in interface (e.g. main menu, store)"),
         category="navigation",
         code_template="mApp->Show{interface_name}();",
         required_params=["interface_name"]
     ),
     "close_current_dialog": PredefinedAction(
         id="close_current_dialog",
-        name="关闭当前Dialog界面",
-        description="关闭当前所在的Dialog界面（仅适用于Dialog类型界面）",
+        name=tr("action.close_current_dialog", "Close Current Dialog"),
+        description=tr("action.close_current_dialog.desc", "Close the current Dialog interface (only for Dialog type)"),
         category="navigation",
         code_template="mApp->KillDialog(mId);",
         required_params=[]
     ),
     "close_current_widget": PredefinedAction(
         id="close_current_widget",
-        name="关闭当前Widget界面",
-        description="关闭当前所在的Widget界面（仅适用于Widget类型界面）",
+        name=tr("action.close_current_widget", "Close Current Widget"),
+        description=tr("action.close_current_widget.desc", "Close the current Widget interface (only for Widget type)"),
         category="navigation",
         code_template="mWidgetManager->RemoveWidget(this);",
         required_params=[]
     ),
     "close_dialog_by_id": PredefinedAction(
         id="close_dialog_by_id",
-        name="关闭指定ID的界面",
-        description="根据界面ID关闭指定的Dialog界面",
+        name=tr("action.close_dialog_by_id", "Close Interface by ID"),
+        description=tr("action.close_dialog_by_id.desc", "Close a specific Dialog interface by ID"),
         category="navigation",
         code_template="mApp->KillDialog({interface_id});",
         required_params=["interface_id"]
     ),
     "open_project_interface": PredefinedAction(
         id="open_project_interface",
-        name="打开项目界面",
-        description="打开项目中定义的其他界面（会叠加显示）",
+        name=tr("action.open_project_interface", "Open Project Interface"),
+        description=tr("action.open_project_interface.desc", "Open another interface defined in the project (overlays on top)"),
         category="navigation",
         code_template="mApp->AddDialog(new {interface_class}(mApp, {interface_id}, true, \"\", \"\", \"\", Dialog::BUTTONS_NONE));",
         required_params=["interface_class", "interface_id"]
     ),
     "switch_to_project_interface": PredefinedAction(
         id="switch_to_project_interface",
-        name="切换到项目界面",
-        description="关闭当前界面并打开项目中的另一个界面",
+        name=tr("action.switch_to_project_interface", "Switch to Project Interface"),
+        description=tr("action.switch_to_project_interface.desc", "Close current interface and open another project interface"),
         category="navigation",
         code_template="mApp->KillDialog(mId);\nmApp->AddDialog(new {interface_class}(mApp, {interface_id}, true, \"\", \"\", \"\", Dialog::BUTTONS_NONE));",
         required_params=["interface_class", "interface_id"]
     ),
     "open_project_widget": PredefinedAction(
         id="open_project_widget",
-        name="打开项目Widget界面",
-        description="打开项目中定义的Widget类型界面（会叠加显示）",
+        name=tr("action.open_project_widget", "Open Project Widget"),
+        description=tr("action.open_project_widget.desc", "Open a Widget type interface defined in the project (overlays on top)"),
         category="navigation",
         code_template="mWidgetManager->AddWidget(new {interface_class}(mApp));",
         required_params=["interface_class"]
     ),
     "switch_to_project_widget": PredefinedAction(
         id="switch_to_project_widget",
-        name="切换到项目Widget界面",
-        description="关闭当前Widget界面并打开另一个Widget界面",
+        name=tr("action.switch_to_project_widget", "Switch to Project Widget"),
+        description=tr("action.switch_to_project_widget.desc", "Close current Widget and open another Widget interface"),
         category="navigation",
         code_template="mWidgetManager->RemoveWidget(this);\nmWidgetManager->AddWidget(new {interface_class}(mApp));",
         required_params=["interface_class"]
     ),
     "back_to_main_menu": PredefinedAction(
         id="back_to_main_menu",
-        name="返回主菜单",
-        description="返回游戏主菜单",
+        name=tr("action.back_to_main_menu", "Back to Main Menu"),
+        description=tr("action.back_to_main_menu.desc", "Return to the game main menu"),
         category="navigation",
         code_template="mApp->DoBackToMain();",
         required_params=[]
     ),
     "show_game_board": PredefinedAction(
         id="show_game_board",
-        name="显示游戏界面",
-        description="显示游戏主界面（开始游戏）",
+        name=tr("action.show_game_board", "Show Game Board"),
+        description=tr("action.show_game_board.desc", "Show the game main interface (start game)"),
         category="navigation",
         code_template="mApp->ShowGameBoard();",
         required_params=[]
     ),
     "show_game_selector": PredefinedAction(
         id="show_game_selector",
-        name="显示关卡选择",
-        description="显示关卡选择界面",
+        name=tr("action.show_game_selector", "Show Level Selector"),
+        description=tr("action.show_game_selector.desc", "Show the level selection interface"),
         category="navigation",
         code_template="mApp->ShowGameSelector();",
         required_params=[]
     ),
     "show_store": PredefinedAction(
         id="show_store",
-        name="显示商店",
-        description="显示疯狂戴夫的商店",
+        name=tr("action.show_store", "Show Store"),
+        description=tr("action.show_store.desc", "Show Crazy Dave's shop"),
         category="navigation",
         code_template="mApp->ShowStoreScreen()->WaitForResult(true);",
         required_params=[]
     ),
     "show_almanac": PredefinedAction(
         id="show_almanac",
-        name="显示图鉴",
-        description="显示植物图鉴",
+        name=tr("action.show_almanac", "Show Almanac"),
+        description=tr("action.show_almanac.desc", "Show the plant almanac"),
         category="navigation",
         code_template="mApp->DoAlmanacDialog()->WaitForResult(true);",
         required_params=[]
     ),
     "show_chooser": PredefinedAction(
         id="show_chooser",
-        name="显示选择器",
-        description="显示植物选择界面",
+        name=tr("action.show_chooser", "Show Chooser"),
+        description=tr("action.show_chooser.desc", "Show the plant selection interface"),
         category="navigation",
         code_template="mApp->ShowSeedChooserScreen();",
         required_params=[]
     ),
     "show_options": PredefinedAction(
         id="show_options",
-        name="显示选项",
-        description="显示选项界面",
+        name=tr("action.show_options", "Show Options"),
+        description=tr("action.show_options.desc", "Show the options interface"),
         category="navigation",
         code_template="mApp->DoNewOptions(true);",
         required_params=[]
     ),
     "show_challenge": PredefinedAction(
         id="show_challenge",
-        name="显示挑战模式",
-        description="显示挑战模式界面",
+        name=tr("action.show_challenge", "Show Challenge Mode"),
+        description=tr("action.show_challenge.desc", "Show the challenge mode interface"),
         category="navigation",
         code_template="mApp->ShowChallengeScreen(0);",
         required_params=[]
     ),
     "show_credits": PredefinedAction(
         id="show_credits",
-        name="显示制作人员",
-        description="显示制作人员名单",
+        name=tr("action.show_credits", "Show Credits"),
+        description=tr("action.show_credits.desc", "Show the credits screen"),
         category="navigation",
         code_template="mApp->ShowCreditScreen();",
         required_params=[]
     ),
     "pause_game": PredefinedAction(
         id="pause_game",
-        name="暂停游戏",
-        description="显示暂停对话框",
+        name=tr("action.pause_game", "Pause Game"),
+        description=tr("action.pause_game.desc", "Show the pause dialog"),
         category="navigation",
         code_template="mApp->DoPauseDialog();",
         required_params=[]
     ),
     "set_widget_visible": PredefinedAction(
         id="set_widget_visible",
-        name="设置控件可见性",
-        description="设置控件的可见状态",
+        name=tr("action.set_widget_visible", "Set Widget Visibility"),
+        description=tr("action.set_widget_visible.desc", "Set the visibility state of a widget"),
         category="widget",
         code_template="{widget_name}->mVisible = {visible};",
         required_params=["widget_name", "visible"]
     ),
     "set_widget_text": PredefinedAction(
         id="set_widget_text",
-        name="设置控件文本",
-        description="设置控件的文本内容",
+        name=tr("action.set_widget_text", "Set Widget Text"),
+        description=tr("action.set_widget_text.desc", "Set the text content of a widget"),
         category="widget",
         code_template='{widget_name}->SetLabel("{text}");',
         required_params=["widget_name", "text"]
     ),
     "toggle_checkbox": PredefinedAction(
         id="toggle_checkbox",
-        name="切换复选框状态",
-        description="切换复选框的选中状态",
+        name=tr("action.toggle_checkbox", "Toggle Checkbox"),
+        description=tr("action.toggle_checkbox.desc", "Toggle the checked state of a checkbox"),
         category="widget",
         code_template="{widget_name}->mChecked = !{widget_name}->mChecked;",
         required_params=["widget_name"]
     ),
     "set_slider_value": PredefinedAction(
         id="set_slider_value",
-        name="设置滑块值",
-        description="设置滑块的当前值",
+        name=tr("action.set_slider_value", "Set Slider Value"),
+        description=tr("action.set_slider_value.desc", "Set the current value of a slider"),
         category="widget",
         code_template="{widget_name}->mValue = {value};",
         required_params=["widget_name", "value"]
     ),
     "enable_widget": PredefinedAction(
         id="enable_widget",
-        name="启用控件",
-        description="设置控件的禁用状态",
+        name=tr("action.enable_widget", "Enable Widget"),
+        description=tr("action.enable_widget.desc", "Set the disabled state of a widget"),
         category="widget",
         code_template="{widget_name}->mDisabled = {disabled};",
         required_params=["widget_name", "disabled"]
     ),
     "add_list_item": PredefinedAction(
         id="add_list_item",
-        name="添加列表项",
-        description="向列表添加新项",
+        name=tr("action.add_list_item", "Add List Item"),
+        description=tr("action.add_list_item.desc", "Add a new item to a list"),
         category="widget",
         code_template='{widget_name}->AddLine("{text}", false);',
         required_params=["widget_name", "text"]
     ),
     "clear_list": PredefinedAction(
         id="clear_list",
-        name="清空列表",
-        description="清空列表中的所有项",
+        name=tr("action.clear_list", "Clear List"),
+        description=tr("action.clear_list.desc", "Clear all items from a list"),
         category="widget",
         code_template="{widget_name}->Clear();",
         required_params=["widget_name"]
     ),
     "set_edit_text": PredefinedAction(
         id="set_edit_text",
-        name="设置输入框文本",
-        description="设置输入框的文本内容",
+        name=tr("action.set_edit_text", "Set Edit Text"),
+        description=tr("action.set_edit_text.desc", "Set the text content of an edit widget"),
         category="widget",
         code_template='{widget_name}->SetText("{text}");',
         required_params=["widget_name", "text"]
     ),
     "log_message": PredefinedAction(
         id="log_message",
-        name="输出日志",
-        description="输出调试日志信息",
+        name=tr("action.log_message", "Log Message"),
+        description=tr("action.log_message.desc", "Output a debug log message"),
         category="debug",
         code_template='printf("{message}\\n");',
         required_params=["message"]
@@ -331,11 +332,11 @@ PREDEFINED_ACTIONS: Dict[str, PredefinedAction] = {
 
 
 ACTION_CATEGORIES = {
-    "dialog": "对话框操作",
-    "navigation": "界面导航",
-    "sound": "音效播放",
-    "widget": "控件操作",
-    "debug": "调试",
+    "dialog": tr("category.dialog", "Dialog"),
+    "navigation": tr("category.navigation", "Navigation"),
+    "sound": tr("category.sound", "Sound"),
+    "widget": tr("category.widget", "Widget"),
+    "debug": tr("category.debug", "Debug"),
 }
 
 LEGACY_ACTION_ID_MAP = {
