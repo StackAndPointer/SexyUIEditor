@@ -250,6 +250,7 @@ class Project:
                 "namespace": self.settings.namespace,
                 "header_include": self.settings.header_include,
                 "target_platform": self.settings.target_platform,
+                "cpp_structure": self.settings.cpp_structure,
             },
             "interfaces": {
                 iid: {
@@ -319,6 +320,7 @@ class Project:
             namespace=s.get("namespace", ""),
             header_include=s.get("header_include", ""),
             target_platform=s.get("target_platform", "cpp"),
+            cpp_structure=s.get("cpp_structure", "qe"),
         )
         self.interfaces.clear()
 

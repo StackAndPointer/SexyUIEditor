@@ -1289,10 +1289,16 @@ class MainWindow(QMainWindow):
                 self.project.set_target_platform("csharp")
                 self._ext_manager.set_platform("csharp")
                 self._output_lang_combo.setCurrentIndex(1)
+                self._cpp_structure_combo.setVisible(False)
             else:
                 self.project.set_target_platform("cpp")
                 self._ext_manager.set_platform("cpp")
                 self._output_lang_combo.setCurrentIndex(0)
+                self._cpp_structure_combo.setVisible(True)
+                
+                structure = getattr(self.project.settings, 'cpp_structure', 'qe')
+                structure_index = 0 if structure == "qe" else 1
+                self._cpp_structure_combo.setCurrentIndex(structure_index)
             
             self.toolbox.refresh_ui()
             self.canvas.set_project(self.project)
