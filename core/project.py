@@ -86,6 +86,7 @@ class ProjectSettings:
     namespace: str = ""
     header_include: str = ""
     target_platform: str = "cpp"
+    cpp_structure: str = "qe"
     
     def get_default_width(self) -> int:
         return 800

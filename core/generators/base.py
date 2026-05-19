@@ -6,6 +6,7 @@ Contains common constants, types, and base functionality for code generation.
 from typing import List, Optional, Set, Dict, Tuple
 from core.project import Project, WidgetInstance, Interface
 from core.component_registry import ComponentRegistry
+from core.header_includes import HeaderIncludeManager
 from ui.image_picker import get_resource_group
 
 
@@ -83,20 +84,12 @@ class CodeGeneratorBase:
                 pass
         return "Color(255, 255, 255)"
 
-    def _listener_includes(self, listeners: List[str]) -> str:
+    def _listener_includes(self, listeners: List[str], structure: str = "portable") -> str:
         includes = []
         for l in listeners:
-            inc_map = {
-                "ButtonListener": "widget/ButtonListener.h",
-                "DialogListener": "widget/DialogListener.h",
-                "EditListener": "widget/EditListener.h",
-                "ListListener": "widget/ListListener.h",
-                "CheckboxListener": "widget/CheckboxListener.h",
-                "SliderListener": "widget/SliderListener.h",
-                "ScrollListener": "widget/ScrollListener.h",
-            }
-            if l in inc_map:
-                includes.append(f'#include "{inc_map[l]}"')
+            include = HeaderIncludeManager.get_include(l, structure)
+            if include and include != f"{l}.h":
+                includes.append(f'#include "{include}"')
         return "\n".join(includes)
 
     def _collect_required_resources(self, iface: Interface) -> Set[str]:

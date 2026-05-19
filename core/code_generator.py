@@ -10,6 +10,7 @@ from core.generators.cpp.sexy import CppSexyGenerator
 from core.generators.cpp.pvz import CppPvzGenerator
 from core.generators.cpp.extended import CppExtendedGenerator
 from core.generators.csharp_legacy import CSharpGenerator
+from core.header_includes import HeaderIncludeManager
 
 
 class CodeGenerator(CodeGeneratorBase):
@@ -54,7 +55,8 @@ class CodeGenerator(CodeGeneratorBase):
         s = iface.settings
         guard = f"{s.class_name.upper()}_H"
         listeners = sorted(self._get_required_listeners_for_interface(iface))
-        listener_includes = self._listener_includes(listeners)
+        structure = getattr(project.settings, 'cpp_structure', 'portable')
+        listener_includes = self._listener_includes(listeners, structure)
         is_dialog_type = s.interface_type == "dialog"
         if is_dialog_type:
             listeners = [l for l in listeners if l != "ButtonListener"]
@@ -62,11 +64,14 @@ class CodeGenerator(CodeGeneratorBase):
         
         base_class = "Sexy::Dialog" if is_dialog_type else "Sexy::Widget"
         
+        widget_include = HeaderIncludeManager.get_include("Widget", structure)
+        dialog_include = HeaderIncludeManager.get_include("Dialog", structure)
+        
         header = f"""#ifndef {guard}
 #define {guard}
 
-#include "widget/Widget.h"
-#include "widget/Dialog.h"
+#include "{widget_include}"
+#include "{dialog_include}"
 {listener_includes}
 
 #include <string>
@@ -180,9 +185,10 @@ public:
     def generate_cpp_for_interface(self, iface: Interface, project: Project) -> str:
         s = iface.settings
         listeners = sorted(self._get_required_listeners_for_interface(iface))
+        structure = getattr(project.settings, 'cpp_structure', 'portable')
         
-        widget_includes = self._sexy_gen.get_widget_includes(iface)
-        lawn_includes = self._pvz_gen.get_lawn_includes(iface)
+        widget_includes = self._sexy_gen.get_widget_includes(iface, structure)
+        lawn_includes = self._pvz_gen.get_lawn_includes(iface, structure)
         has_non_widget = self._has_non_widget_types(iface)
         interface_includes = self._get_interface_includes(iface, project)
         action_includes = self._get_action_includes(iface)
@@ -203,14 +209,17 @@ public:
             resource_load_code += '    for (std::string& resource : mLoadedResourceNames)\n'
             resource_load_code += '        TodLoadResources(resource.c_str());\n\n'
         
+        graphics_include = HeaderIncludeManager.get_include("Graphics", structure)
+        widget_manager_include = HeaderIncludeManager.get_include("WidgetManager", structure)
+        
         cpp = f"""#include "{s.class_name}.h"
 #include "../../LawnApp.h"
 #include "../../Resources.h"
 #include "../../GameConstants.h"
 #include "../../Sexy.TodLib/TodCommon.h"
 #include "../../Sexy.TodLib/TodStringFile.h"
-#include "graphics/Graphics.h"
-#include "widget/WidgetManager.h"
+#include "{graphics_include}"
+#include "{widget_manager_include}"
 {widget_includes}
 {lawn_includes}
 {interface_includes}

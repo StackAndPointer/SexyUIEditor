@@ -2,6 +2,7 @@
 from typing import List
 from core.project import WidgetInstance, Interface
 from ..base import CodeGeneratorBase
+from core.header_includes import HeaderIncludeManager
 
 
 class CppSexyGenerator(CodeGeneratorBase):
@@ -176,29 +177,11 @@ class CppSexyGenerator(CodeGeneratorBase):
         
         return "".join(lines)
 
-    def get_widget_includes(self, iface: Interface) -> str:
+    def get_widget_includes(self, iface: Interface, structure: str = "portable") -> str:
         includes = set()
         for wid in iface.widgets.values():
-            if wid.class_name == "ButtonWidget":
-                includes.add('#include "widget/ButtonWidget.h"')
-            elif wid.class_name == "EditWidget":
-                includes.add('#include "widget/EditWidget.h"')
-            elif wid.class_name == "Checkbox":
-                includes.add('#include "widget/Checkbox.h"')
-            elif wid.class_name == "Slider":
-                includes.add('#include "widget/Slider.h"')
-            elif wid.class_name == "Dialog":
-                includes.add('#include "widget/Dialog.h"')
-            elif wid.class_name == "DialogButton":
-                includes.add('#include "widget/DialogButton.h"')
-            elif wid.class_name == "ListWidget":
-                includes.add('#include "widget/ListWidget.h"')
-            elif wid.class_name == "ScrollWidget":
-                includes.add('#include "widget/ScrollWidget.h"')
-            elif wid.class_name == "HyperlinkWidget":
-                includes.add('#include "widget/HyperlinkWidget.h"')
-            elif wid.class_name == "ScrollbuttonWidget":
-                includes.add('#include "widget/ScrollbuttonWidget.h"')
-            elif wid.class_name == "TextWidget":
-                includes.add('#include "widget/TextWidget.h"')
-        return "\n".join(includes)
+            if wid.class_name in self.SEXY_WIDGETS:
+                include = HeaderIncludeManager.get_include(wid.class_name, structure)
+                if include:
+                    includes.add(f'#include "{include}"')
+        return "\n".join(sorted(includes))

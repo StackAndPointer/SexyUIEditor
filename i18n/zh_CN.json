@@ -432,5 +432,12 @@
     "action.set_edit_text": "设置输入框文本",
     "action.set_edit_text.desc": "设置输入框的文本内容",
     "action.log_message": "输出日志",
-    "action.log_message.desc": "输出调试日志信息"
+    "action.log_message.desc": "输出调试日志信息",
+    
+    "structure.qe": "QE",
+    "structure.portable": "Portable",
+    "structure.qe.desc": "QE项目结构，使用相对路径 (../../SexyAppFramework/)",
+    "structure.portable.desc": "Portable项目结构，使用简化路径 (widget/)",
+    
+    "status.cpp_structure_changed": "C++结构: {}"
 }

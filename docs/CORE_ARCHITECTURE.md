@@ -63,6 +63,29 @@ SexyUIEditor/
 - 分辨率：800x600
 - 图片引用：`Sexy::IMAGE_xxx`
 
+#### C++ 项目结构
+
+C++ 模式支持两种项目结构，主要区别在于头文件包含路径：
+
+**QE 结构** (默认)：
+```cpp
+#include "../../SexyAppFramework/Widget.h"
+#include "../../SexyAppFramework/ButtonListener.h"
+#include "../../SexyAppFramework/ButtonWidget.h"
+```
+
+**Portable 结构**：
+```cpp
+#include "widget/Widget.h"
+#include "widget/ButtonListener.h"
+#include "widget/ButtonWidget.h"
+```
+
+项目结构通过 `core/header_includes.py` 中的 `HeaderIncludeManager` 类管理，支持：
+- 自动根据项目结构生成正确的头文件包含路径
+- 在工具栏中切换 QE/Portable 结构
+- 默认使用 QE 结构
+
 ### C# (.NET) 版本
 - 项目文件后缀：`.cssexyui`
 - 分辨率：800x480

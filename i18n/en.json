@@ -432,5 +432,12 @@
     "action.set_edit_text": "Set Edit Text",
     "action.set_edit_text.desc": "Set the text content of an edit widget",
     "action.log_message": "Log Message",
-    "action.log_message.desc": "Output a debug log message"
+    "action.log_message.desc": "Output a debug log message",
+    
+    "structure.qe": "QE",
+    "structure.portable": "Portable",
+    "structure.qe.desc": "QE project structure with relative paths (../../SexyAppFramework/)",
+    "structure.portable.desc": "Portable project structure with simplified paths (widget/)",
+    
+    "status.cpp_structure_changed": "C++ Structure: {}"
 }

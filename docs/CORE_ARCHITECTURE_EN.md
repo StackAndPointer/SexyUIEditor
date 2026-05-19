@@ -68,6 +68,29 @@ The editor supports two output targets:
 - Resolution: 800x600
 - Image references: `Sexy::IMAGE_xxx`
 
+#### C++ Project Structures
+
+C++ mode supports two project structures, differing mainly in header include paths:
+
+**QE Structure** (Default):
+```cpp
+#include "../../SexyAppFramework/Widget.h"
+#include "../../SexyAppFramework/ButtonListener.h"
+#include "../../SexyAppFramework/ButtonWidget.h"
+```
+
+**Portable Structure**:
+```cpp
+#include "widget/Widget.h"
+#include "widget/ButtonListener.h"
+#include "widget/ButtonWidget.h"
+```
+
+Project structures are managed by the `HeaderIncludeManager` class in `core/header_includes.py`, supporting:
+- Automatic generation of correct header include paths based on project structure
+- Switching between QE/Portable structures in the toolbar
+- Default to QE structure
+
 ### C# (.NET) Version
 - Project file extension: `.cssexyui`
 - Resolution: 800x480

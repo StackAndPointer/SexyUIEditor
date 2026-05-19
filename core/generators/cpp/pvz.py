@@ -2,6 +2,7 @@
 from typing import List
 from core.project import WidgetInstance, Interface
 from ..base import CodeGeneratorBase
+from core.header_includes import HeaderIncludeManager
 
 
 class CppPvzGenerator(CodeGeneratorBase):
@@ -120,17 +121,23 @@ class CppPvzGenerator(CodeGeneratorBase):
         
         return "".join(lines)
 
-    def get_lawn_includes(self, iface: Interface) -> str:
+    def get_lawn_includes(self, iface: Interface, structure: str = "portable") -> str:
         includes = set()
         has_lawn_dialog = False
         for wid in iface.widgets.values():
             if wid.class_name in ("GameButton", "NewLawnButton", "LawnStoneButton"):
-                includes.add('#include "GameButton.h"')
+                include = HeaderIncludeManager.get_include("GameButton", structure)
+                if include:
+                    includes.add(f'#include "{include}"')
             if wid.class_name == "LawnDialog":
-                includes.add('#include "LawnDialog.h"')
+                include = HeaderIncludeManager.get_include("LawnDialog", structure)
+                if include:
+                    includes.add(f'#include "{include}"')
                 has_lawn_dialog = True
             if wid.class_name == "LawnEditWidget":
                 includes.add('#include "../LawnCommon.h"')
         if has_lawn_dialog or any(wid.class_name == "HyperlinkWidget" for wid in iface.widgets.values()):
-            includes.add('#include "graphics/Color.h"')
-        return "\n".join(includes)
+            include = HeaderIncludeManager.get_include("Color", structure)
+            if include:
+                includes.add(f'#include "{include}"')
+        return "\n".join(sorted(includes))

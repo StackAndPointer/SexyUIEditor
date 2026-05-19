@@ -37,6 +37,7 @@ def main():
     app = QApplication(sys.argv)
     app.setApplicationName("SexyUIEditor")
     app.setOrganizationName("StackAndPointer")
+    app.setApplicationVersion("1.1")
 
     i18n = I18nManager.instance()
     i18n.init_locale()

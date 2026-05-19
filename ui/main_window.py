@@ -191,6 +191,14 @@ class MainWindow(QMainWindow):
         self._output_lang_combo.setCurrentIndex(0)
         self._output_lang_combo.currentIndexChanged.connect(self._on_output_lang_changed)
         toolbar.addWidget(self._output_lang_combo)
+        
+        self._cpp_structure_combo = QComboBox()
+        self._cpp_structure_combo.addItem("QE", "qe")
+        self._cpp_structure_combo.addItem("Portable", "portable")
+        self._cpp_structure_combo.setCurrentIndex(0)
+        self._cpp_structure_combo.currentIndexChanged.connect(self._on_cpp_structure_changed)
+        toolbar.addWidget(self._cpp_structure_combo)
+        
         toolbar.addSeparator()
 
         toolbar.addAction(self._make_action(tr("action.settings", "Settings"), self._on_project_settings))
@@ -472,6 +480,13 @@ class MainWindow(QMainWindow):
         self.canvas.refresh()
         self._update_title()
         self.statusBar().showMessage(tr("status.output_lang_changed", f"Output language: {new_lang.upper()}"))
+        
+        self._cpp_structure_combo.setVisible(new_lang == "cpp")
+
+    def _on_cpp_structure_changed(self, index):
+        new_structure = self._cpp_structure_combo.currentData()
+        self.project.settings.cpp_structure = new_structure
+        self.statusBar().showMessage(tr("status.cpp_structure_changed", f"C++ Structure: {new_structure.upper()}"))
 
     def _on_preview(self):
         dlg = PreviewWindow(self.project, self)
