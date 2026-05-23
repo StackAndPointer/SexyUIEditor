@@ -65,6 +65,7 @@ class CodeParser:
             with open(header_path, 'r', encoding='utf-8') as f:
                 header = f.read()
             blocks = cls.extract_blocks(header)
+            code.header_includes = blocks.get('USER_INCLUDES', '')
             code.declarations = blocks.get('USER_DECLARATIONS', '')
 
         if cpp_path and os.path.exists(cpp_path):
@@ -72,6 +73,7 @@ class CodeParser:
                 cpp = f.read()
             blocks = cls.extract_blocks(cpp)
 
+            code.cpp_includes = blocks.get('USER_INCLUDES', '')
             code.init_code = blocks.get('USER_INIT', '')
             code.destroy_code = blocks.get('USER_DESTROY', '')
             code.draw_code = blocks.get('USER_DRAW', '')
@@ -98,6 +100,7 @@ class CodeParser:
                 cs_content = f.read()
             blocks = cls.extract_blocks(cs_content)
 
+            code.cpp_includes = blocks.get('USER_INCLUDES', '')
             code.declarations = blocks.get('USER_DECLARATIONS', '')
             code.init_code = blocks.get('USER_INIT', '')
             code.destroy_code = blocks.get('USER_DESTROY', '')

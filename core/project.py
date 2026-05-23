@@ -30,6 +30,8 @@ class WidgetInstance:
 
 @dataclass
 class ProjectCode:
+    header_includes: str = ""
+    cpp_includes: str = ""
     declarations: str = ""
     init_code: str = ""
     destroy_code: str = ""
@@ -288,6 +290,8 @@ class Project:
                     },
                     "root_widget_ids": iface.root_widget_ids,
                     "user_code": {
+                        "header_includes": iface.user_code.header_includes,
+                        "cpp_includes": iface.user_code.cpp_includes,
                         "declarations": iface.user_code.declarations,
                         "init_code": iface.user_code.init_code,
                         "destroy_code": iface.user_code.destroy_code,
@@ -365,6 +369,8 @@ class Project:
                 iface.root_widget_ids = idata.get("root_widget_ids", [])
                 uc = idata.get("user_code", {})
                 iface.user_code = ProjectCode(
+                    header_includes=uc.get("header_includes", ""),
+                    cpp_includes=uc.get("cpp_includes", ""),
                     declarations=uc.get("declarations", ""),
                     init_code=uc.get("init_code", ""),
                     destroy_code=uc.get("destroy_code", ""),
@@ -409,6 +415,8 @@ class Project:
             iface.root_widget_ids = data.get("root_widget_ids", [])
             uc = data.get("user_code", {})
             iface.user_code = ProjectCode(
+                header_includes=uc.get("header_includes", ""),
+                cpp_includes=uc.get("cpp_includes", ""),
                 declarations=uc.get("declarations", ""),
                 init_code=uc.get("init_code", ""),
                 destroy_code=uc.get("destroy_code", ""),

@@ -77,6 +77,10 @@ class CodeGenerator(CodeGeneratorBase):
 #include <string>
 #include <vector>
 
+// [[[USER_INCLUDES]]]
+// Add custom header includes here
+{iface.user_code.header_includes}// [[[END_USER_INCLUDES]]]
+
 class LawnApp;
 
 namespace Sexy
@@ -224,6 +228,10 @@ public:
 {lawn_includes}
 {interface_includes}
 {action_includes}
+
+// [[[USER_INCLUDES]]]
+// Add custom header includes here
+{iface.user_code.cpp_includes}// [[[END_USER_INCLUDES]]]
 
 using namespace Sexy;
 
