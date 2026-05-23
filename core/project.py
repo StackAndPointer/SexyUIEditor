@@ -32,12 +32,14 @@ class WidgetInstance:
 class ProjectCode:
     header_includes: str = ""
     cpp_includes: str = ""
+    forward_declarations: str = ""
     declarations: str = ""
     init_code: str = ""
     destroy_code: str = ""
     draw_code: str = ""
     update_code: str = ""
     functions: str = ""
+    post_class: str = ""
     event_handlers: Dict[str, str] = field(default_factory=dict)
 
 
@@ -292,12 +294,14 @@ class Project:
                     "user_code": {
                         "header_includes": iface.user_code.header_includes,
                         "cpp_includes": iface.user_code.cpp_includes,
+                        "forward_declarations": iface.user_code.forward_declarations,
                         "declarations": iface.user_code.declarations,
                         "init_code": iface.user_code.init_code,
                         "destroy_code": iface.user_code.destroy_code,
                         "draw_code": iface.user_code.draw_code,
                         "update_code": iface.user_code.update_code,
                         "functions": iface.user_code.functions,
+                        "post_class": iface.user_code.post_class,
                         "event_handlers": iface.user_code.event_handlers,
                     },
                 }
@@ -371,12 +375,14 @@ class Project:
                 iface.user_code = ProjectCode(
                     header_includes=uc.get("header_includes", ""),
                     cpp_includes=uc.get("cpp_includes", ""),
+                    forward_declarations=uc.get("forward_declarations", ""),
                     declarations=uc.get("declarations", ""),
                     init_code=uc.get("init_code", ""),
                     destroy_code=uc.get("destroy_code", ""),
                     draw_code=uc.get("draw_code", ""),
                     update_code=uc.get("update_code", ""),
                     functions=uc.get("functions", ""),
+                    post_class=uc.get("post_class", ""),
                     event_handlers=uc.get("event_handlers", {}),
                 )
                 self.interfaces[iid] = iface

@@ -102,6 +102,10 @@ class NewLawnButton;
 class LawnDialog;
 class LawnEditWidget;
 
+// [[[USER_FORWARD_DECLARATIONS]]]
+// Add forward declarations and enums here
+{iface.user_code.forward_declarations}// [[[END_USER_FORWARD_DECLARATIONS]]]
+
 class {s.class_name} : public {base_class}{listener_bases}
 {{
 public:
@@ -164,6 +168,11 @@ public:
                 header += "    virtual void ButtonPress(int theId) override;\n"
                 header += "    virtual void ButtonDepress(int theId) override;\n"
 
+        header += "\n    // [[[USER_DECLARATIONS]]]\n"
+        header += "    // 在此标记区域内添加你的成员声明\n"
+        header += iface.user_code.declarations
+        header += "    // [[[END_USER_DECLARATIONS]]]\n"
+
         header += "\nprivate:\n"
         header += "    std::vector<std::string> mLoadedResourceNames;\n"
         for wid in iface.widgets.values():
@@ -173,11 +182,14 @@ public:
             ns = self._get_widget_namespace(wid.class_name)
             header += f"    {ns}{wid.class_name}* {var_name};\n"
 
-        header += "\n    // [[[USER_DECLARATIONS]]]\n"
-        header += "    // 在此标记区域内添加你的成员声明\n"
-        header += "    // [[[END_USER_DECLARATIONS]]]\n"
-
-        header += "};\n\n#endif // " + guard + "\n"
+        header += "};\n\n"
+        
+        if iface.user_code.post_class:
+            header += f"// [[[USER_POST_CLASS]]]\n"
+            header += iface.user_code.post_class
+            header += "// [[[END_USER_POST_CLASS]]]\n\n"
+        
+        header += "#endif // " + guard + "\n"
         return header
 
     def generate_header(self, project: Project) -> str:

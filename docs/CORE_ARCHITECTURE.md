@@ -529,15 +529,19 @@ SexyUIExtensions/
 ## 用户代码区域
 
 ### C++ 版本
+- `// [[[USER_INCLUDES]]]` - 自定义头文件包含
+- `// [[[USER_FORWARD_DECLARATIONS]]]` - 前向声明和枚举定义（在类定义之前）
 - `// [[[USER_DECLARATIONS]]]` - 成员声明
 - `// [[[USER_INIT]]]` - 初始化代码
 - `// [[[USER_DESTROY]]]` - 清理代码
 - `// [[[USER_DRAW]]]` - 自定义绘制代码
 - `// [[[USER_UPDATE]]]` - 更新逻辑
 - `// [[[USER_FUNCTIONS]]]` - 自定义函数
+- `// [[[USER_POST_CLASS]]]` - 类后定义（辅助类等，在类定义之后）
 - `// [[[HANDLER_widget_id]]]` - 事件处理器代码
 
 ### C# 版本
+- `// [[[USER_INCLUDES]]]` - 自定义 using 语句
 - `// [[[USER_DECLARATIONS]]]` - 成员声明
 - `// [[[USER_INIT]]]` - 初始化代码
 - `// [[[USER_DESTROY]]]` - 清理代码

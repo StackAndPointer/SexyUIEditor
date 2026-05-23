@@ -66,7 +66,9 @@ class CodeParser:
                 header = f.read()
             blocks = cls.extract_blocks(header)
             code.header_includes = blocks.get('USER_INCLUDES', '')
+            code.forward_declarations = blocks.get('USER_FORWARD_DECLARATIONS', '')
             code.declarations = blocks.get('USER_DECLARATIONS', '')
+            code.post_class = blocks.get('USER_POST_CLASS', '')
 
         if cpp_path and os.path.exists(cpp_path):
             with open(cpp_path, 'r', encoding='utf-8') as f:

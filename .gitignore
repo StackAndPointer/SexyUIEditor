@@ -123,6 +123,9 @@ cython_debug/
 *.sexyui
 *.cssexyui
 
+# Example files
+examples/
+
 # Resource files (too large)
 pak/
 Content/

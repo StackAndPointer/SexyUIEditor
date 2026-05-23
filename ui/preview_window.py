@@ -149,47 +149,91 @@ class PreviewCanvas(QWidget):
 
         painter.end()
 
+    def _resolve_dynamic_size(self, value: int, img_px: QPixmap, is_width: bool) -> int:
+        if value >= 0:
+            return value
+        if img_px is None or img_px.isNull():
+            return 100 if is_width else 30
+        img_size = img_px.width() if is_width else img_px.height()
+        special_sizes = {
+            -1: img_size,
+            -2: img_size + 23,
+            -3: img_size + 33,
+            -4: img_size + 10,
+            -5: img_size,
+            -6: img_size,
+            -7: img_size,
+        }
+        return special_sizes.get(value, img_size)
+
+    def _resolve_dynamic_pos(self, value: int, img_px: QPixmap, is_x: bool) -> int:
+        if value >= 0:
+            return value
+        iface = self.project.current_interface
+        canvas_w = iface.settings.width if iface else 800
+        canvas_h = iface.settings.height if iface else 600
+        img_h = img_px.height() if img_px and not img_px.isNull() else 30
+        if is_x:
+            special_positions = {
+                -7: canvas_w - 150,
+                -6: 20,
+            }
+        else:
+            special_positions = {
+                -7: 455,
+                -6: canvas_h - img_h - 35,
+            }
+        return special_positions.get(value, value)
+
     def _draw_widget(self, painter: QPainter, widget_id: str):
         w = self.project.get_widget(widget_id)
         if not w:
             return
 
         props = w.properties
-        x = int(props.get("mX", 0))
-        y = int(props.get("mY", 0))
-        width = int(props.get("mWidth", 100))
-        height = int(props.get("mHeight", 30))
+        raw_x = props.get("mX", 0)
+        raw_y = props.get("mY", 0)
+        raw_width = props.get("mWidth", 100)
+        raw_height = props.get("mHeight", 30)
 
-        img_drawn = False
+        img_px = None
         for img_key in ["mButtonImage", "mComponentImage", "mUncheckedImage", "mTrackImage", "mImage"]:
             img_ref = props.get(img_key, "")
             if not img_ref and img_key == "mButtonImage" and w.class_name == "NewLawnButton":
                 img_ref = props.get("mUniformImage", "")
             if img_ref:
-                px = self._load_pixmap(img_ref)
-                if px and not px.isNull():
-                    stretch = False
-                    if w.class_name == "ImageBox":
-                        stretch = props.get("mStretch", False)
-                    
-                    if stretch:
-                        scaled = px.scaled(width, height, 
-                                          Qt.AspectRatioMode.IgnoreAspectRatio,
-                                          Qt.TransformationMode.SmoothTransformation)
-                        painter.drawPixmap(x, y, scaled)
-                    else:
-                        scale_x = props.get("mScaleX", 1.0)
-                        scale_y = props.get("mScaleY", 1.0)
-                        if scale_x != 1.0 or scale_y != 1.0:
-                            scaled = px.scaled(int(px.width() * scale_x),
-                                              int(px.height() * scale_y),
-                                              Qt.AspectRatioMode.IgnoreAspectRatio,
-                                              Qt.TransformationMode.SmoothTransformation)
-                            painter.drawPixmap(x, y, scaled)
-                        else:
-                            painter.drawPixmap(x, y, px)
-                    img_drawn = True
+                img_px = self._load_pixmap(img_ref)
+                if img_px and not img_px.isNull():
                     break
+
+        x = self._resolve_dynamic_pos(raw_x, img_px, True)
+        y = self._resolve_dynamic_pos(raw_y, img_px, False)
+        width = self._resolve_dynamic_size(raw_width, img_px, True)
+        height = self._resolve_dynamic_size(raw_height, img_px, False)
+
+        img_drawn = False
+        if img_px and not img_px.isNull():
+            stretch = False
+            if w.class_name == "ImageBox":
+                stretch = props.get("mStretch", False)
+            
+            if stretch:
+                scaled = img_px.scaled(width, height, 
+                                  Qt.AspectRatioMode.IgnoreAspectRatio,
+                                  Qt.TransformationMode.SmoothTransformation)
+                painter.drawPixmap(x, y, scaled)
+            else:
+                scale_x = props.get("mScaleX", 1.0)
+                scale_y = props.get("mScaleY", 1.0)
+                if scale_x != 1.0 or scale_y != 1.0:
+                    scaled = img_px.scaled(int(img_px.width() * scale_x),
+                                      int(img_px.height() * scale_y),
+                                      Qt.AspectRatioMode.IgnoreAspectRatio,
+                                      Qt.TransformationMode.SmoothTransformation)
+                    painter.drawPixmap(x, y, scaled)
+                else:
+                    painter.drawPixmap(x, y, img_px)
+            img_drawn = True
 
         if not img_drawn:
             color = _WIDGET_COLORS.get(w.class_name, QColor(200, 200, 200, 80))
