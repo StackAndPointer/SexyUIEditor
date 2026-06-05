@@ -285,6 +285,9 @@ using namespace Sexy;
         cpp += "}\n\n"
         
         cpp += f"{s.class_name}::~{s.class_name}()\n{{\n"
+        # If still attached to WidgetManager, remove self to prevent assertion in ~WidgetContainer()
+        cpp += "    if (mWidgetManager)\n"
+        cpp += "        mWidgetManager->RemoveWidget(this);\n"
         # Remove all child widgets from the container before deletion to satisfy WidgetContainer assertion
         cpp += "    RemoveAllWidgets(false, false);\n"
         for wid in iface.widgets.values():
