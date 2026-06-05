@@ -376,12 +376,7 @@ using namespace Sexy;
         cpp += "}\n\n"
 
         cpp += f"void {s.class_name}::RemovedFromManager(WidgetManager* theWidgetManager)\n{{\n"
-        for wid_id in iface.root_widget_ids:
-            wid = iface.widgets.get(wid_id)
-            if wid:
-                var_name = self._get_var_name(wid)
-                if self._is_widget_type(wid.class_name):
-                    cpp += f"    RemoveWidget({var_name});\n"
+        cpp += "    RemoveAllWidgets(false, false);\n"
         cpp += f"    {base_class_call}::RemovedFromManager(theWidgetManager);\n}}\n\n"
 
         for listener in listeners:
