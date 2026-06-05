@@ -29,11 +29,9 @@ jobs:
 
       - name: Check Python syntax
         run: |
-          python -m py_compile core/*.py
-          python -m py_compile core/generators/*.py
-          python -m py_compile core/generators/cpp/*.py
-          python -m py_compile core/generators/csharp/*.py
-          python -m py_compile ui/*.py
+          python -c "import glob, py_compile, os; [py_compile.compile(f, doraise=True) for f in glob.glob('core/**/*.py', recursive=True)]"
+          python -c "import glob, py_compile, os; [py_compile.compile(f, doraise=True) for f in glob.glob('ui/**/*.py', recursive=True)]"
+          python -c "import glob, py_compile, os; [py_compile.compile(f, doraise=True) for f in glob.glob('SexyUIExtensions/**/*.py', recursive=True)]"
 
   build:
     name: Windows Build (Nuitka)
