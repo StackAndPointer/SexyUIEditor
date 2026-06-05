@@ -285,6 +285,8 @@ using namespace Sexy;
         cpp += "}\n\n"
         
         cpp += f"{s.class_name}::~{s.class_name}()\n{{\n"
+        # Remove all child widgets from the container before deletion to satisfy WidgetContainer assertion
+        cpp += "    RemoveAllWidgets(false, false);\n"
         for wid in iface.widgets.values():
             if wid.class_name not in self.NON_WIDGET_TYPES:
                 var_name = self._get_var_name(wid)

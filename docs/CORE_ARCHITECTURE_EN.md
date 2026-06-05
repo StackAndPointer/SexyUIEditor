@@ -534,15 +534,19 @@ Priority of user code in event handlers:
 ## User Code Regions
 
 ### C++ Version
+- `// [[[USER_INCLUDES]]]` - Custom header includes
+- `// [[[USER_FORWARD_DECLARATIONS]]]` - Forward declarations and enum definitions (before class definition)
 - `// [[[USER_DECLARATIONS]]]` - Member declarations
 - `// [[[USER_INIT]]]` - Initialization code
 - `// [[[USER_DESTROY]]]` - Cleanup code
 - `// [[[USER_DRAW]]]` - Custom drawing code
 - `// [[[USER_UPDATE]]]` - Update logic
 - `// [[[USER_FUNCTIONS]]]` - Custom functions
+- `// [[[USER_POST_CLASS]]]` - Post-class definitions (helper classes, etc., after class definition)
 - `// [[[HANDLER_widget_id]]]` - Event handler code
 
 ### C# Version
+- `// [[[USER_INCLUDES]]]` - Custom using statements
 - `// [[[USER_DECLARATIONS]]]` - Member declarations
 - `// [[[USER_INIT]]]` - Initialization code
 - `// [[[USER_DESTROY]]]` - Cleanup code
