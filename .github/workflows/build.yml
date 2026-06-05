@@ -1,0 +1,116 @@
+name: Build and Lint
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: 1
+
+jobs:
+  lint:
+    name: Python Syntax Check
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile core/*.py
+          python -m py_compile core/generators/*.py
+          python -m py_compile core/generators/cpp/*.py
+          python -m py_compile core/generators/csharp/*.py
+          python -m py_compile ui/*.py
+
+  build:
+    name: Windows Build (Nuitka)
+    runs-on: windows-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nuitka
+
+      - name: Build with Nuitka
+        run: |
+          python -m nuitka --standalone --msvc=latest --jobs=%NUMBER_OF_PROCESSORS%^
+            --output-filename=SexyUIEditor.exe --output-dir=dist^
+            --company-name=StackAndPointer --product-name=SexyUIEditor^
+            --file-description="SexyUI ^& PVZ UI Editor"^
+            --copyright="Copyright (C) 2026 StackAndPointer"^
+            --file-version=1.1.0.0 --product-version=1.1.0.0^
+            --windows-icon-from-ico=resources\icons\icon.ico^
+            --windows-console-mode=disable^
+            --enable-plugin=pyqt6^
+            --include-package=core --include-package=ui^
+            --include-data-dir=i18n=i18n^
+            --include-data-dir=resources=resources^
+            --include-data-dir=SexyUIExtensions=SexyUIExtensions^
+            --nofollow-import-to=tkinter --nofollow-import-to=unittest^
+            --nofollow-import-to=test --nofollow-import-to=tests^
+            --nofollow-import-to=numpy --nofollow-import-to=pandas^
+            --nofollow-import-to=scipy --nofollow-import-to=matplotlib^
+            --nofollow-import-to=PIL --nofollow-import-to=cv2^
+            --nofollow-import-to=venv^
+            --assume-yes-for-downloads --show-progress main.py
+        shell: cmd
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SexyUIEditor-Windows
+          path: dist/main.dist/
+
+  release:
+    name: Create Release on Tag
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: SexyUIEditor-Windows
+          path: SexyUIEditor-Windows
+
+      - name: Create ZIP archive
+        run: |
+          powershell Compress-Archive -Path SexyUIEditor-Windows\* -DestinationPath SexyUIEditor-${{ github.ref_name }}.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SexyUIEditor-${{ github.ref_name }}.zip
+          body: |
+            SexyUI Editor ${{ github.ref_name }}
+
+            ### 使用说明
+            1. 下载 ZIP 并解压
+            2. 运行 SexyUIEditor.exe
+            3. 如果需要使用 .NET 版本的资源预览，请手动将 `Content` 和 `pak` 文件夹复制到解压目录
+          draft: false
+          prerelease: false
