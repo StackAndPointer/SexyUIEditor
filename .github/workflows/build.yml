@@ -1,4 +1,4 @@
-name: Build and Lint
+name: Build and Release
 
 on:
   push:
@@ -33,12 +33,14 @@ jobs:
           python -c "import glob, py_compile, os; [py_compile.compile(f, doraise=True) for f in glob.glob('ui/**/*.py', recursive=True)]"
           python -c "import glob, py_compile, os; [py_compile.compile(f, doraise=True) for f in glob.glob('SexyUIExtensions/**/*.py', recursive=True)]"
 
-  build:
+  build-windows:
     name: Windows Build (Nuitka)
     runs-on: windows-latest
     needs: lint
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -58,7 +60,7 @@ jobs:
             --company-name=StackAndPointer --product-name=SexyUIEditor^
             --file-description="SexyUI ^& PVZ UI Editor"^
             --copyright="Copyright (C) 2026 StackAndPointer"^
-            --file-version=1.1.0.0 --product-version=1.1.0.0^
+            --file-version=1.2.0.0 --product-version=1.2.0.0^
             --windows-icon-from-ico=resources\icons\icon.ico^
             --windows-console-mode=disable^
             --enable-plugin=pyqt6^
@@ -75,40 +77,182 @@ jobs:
             --assume-yes-for-downloads --show-progress main.py
         shell: cmd
 
+      - name: Copy resource directories
+        run: |
+          if (Test-Path "Content") { Copy-Item -Path "Content" -Destination "dist\main.dist\Content" -Recurse }
+          if (Test-Path "pak") { Copy-Item -Path "pak" -Destination "dist\main.dist\pak" -Recurse }
+        shell: pwsh
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: SexyUIEditor-Windows
           path: dist/main.dist/
 
+  build-linux:
+    name: Linux Build (Nuitka)
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-glx libglib2.0-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 libxkbcommon-x11-0 libdbus-1-3 libegl1
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nuitka
+
+      - name: Build with Nuitka
+        run: |
+          python -m nuitka --standalone --jobs=$(nproc) \
+            --output-filename=SexyUIEditor --output-dir=dist \
+            --company-name=StackAndPointer --product-name=SexyUIEditor \
+            --file-description="SexyUI & PVZ UI Editor" \
+            --copyright="Copyright (C) 2026 StackAndPointer" \
+            --file-version=1.2.0.0 --product-version=1.2.0.0 \
+            --linux-icon=resources/icons/icon.png \
+            --enable-plugin=pyqt6 \
+            --include-package=core --include-package=ui \
+            --include-data-dir=i18n=i18n \
+            --include-data-dir=resources=resources \
+            --include-data-dir=SexyUIExtensions=SexyUIExtensions \
+            --nofollow-import-to=tkinter --nofollow-import-to=unittest \
+            --nofollow-import-to=test --nofollow-import-to=tests \
+            --nofollow-import-to=numpy --nofollow-import-to=pandas \
+            --nofollow-import-to=scipy --nofollow-import-to=matplotlib \
+            --nofollow-import-to=PIL --nofollow-import-to=cv2 \
+            --nofollow-import-to=venv \
+            --assume-yes-for-downloads --show-progress main.py
+
+      - name: Copy resource directories
+        run: |
+          if [ -d "Content" ]; then cp -r Content dist/main.dist/; fi
+          if [ -d "pak" ]; then cp -r pak dist/main.dist/; fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SexyUIEditor-Linux
+          path: dist/main.dist/
+
+  build-macos:
+    name: macOS Build (Nuitka)
+    runs-on: macos-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nuitka
+
+      - name: Build with Nuitka
+        run: |
+          python -m nuitka --standalone --jobs=$(sysctl -n hw.ncpu) \
+            --output-filename=SexyUIEditor --output-dir=dist \
+            --company-name=StackAndPointer --product-name=SexyUIEditor \
+            --file-description="SexyUI & PVZ UI Editor" \
+            --copyright="Copyright (C) 2026 StackAndPointer" \
+            --file-version=1.2.0.0 --product-version=1.2.0.0 \
+            --macos-app-icon=resources/icons/icon.png \
+            --enable-plugin=pyqt6 \
+            --include-package=core --include-package=ui \
+            --include-data-dir=i18n=i18n \
+            --include-data-dir=resources=resources \
+            --include-data-dir=SexyUIExtensions=SexyUIExtensions \
+            --nofollow-import-to=tkinter --nofollow-import-to=unittest \
+            --nofollow-import-to=test --nofollow-import-to=tests \
+            --nofollow-import-to=numpy --nofollow-import-to=pandas \
+            --nofollow-import-to=scipy --nofollow-import-to=matplotlib \
+            --nofollow-import-to=PIL --nofollow-import-to=cv2 \
+            --nofollow-import-to=venv \
+            --assume-yes-for-downloads --show-progress main.py
+
+      - name: Copy resource directories
+        run: |
+          if [ -d "Content" ]; then cp -r Content dist/main.dist/; fi
+          if [ -d "pak" ]; then cp -r pak dist/main.dist/; fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SexyUIEditor-macOS
+          path: dist/main.dist/
+
   release:
     name: Create Release on Tag
     if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: windows-latest
-    needs: build
+    runs-on: ubuntu-latest
+    needs: [build-windows, build-linux, build-macos]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download build artifact
+      - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
           name: SexyUIEditor-Windows
           path: SexyUIEditor-Windows
 
-      - name: Create ZIP archive
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: SexyUIEditor-Linux
+          path: SexyUIEditor-Linux
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: SexyUIEditor-macOS
+          path: SexyUIEditor-macOS
+
+      - name: Create ZIP archives
         run: |
-          powershell Compress-Archive -Path SexyUIEditor-Windows\* -DestinationPath SexyUIEditor-${{ github.ref_name }}.zip
+          cd SexyUIEditor-Windows && zip -r ../SexyUIEditor-${{ github.ref_name }}-Windows.zip . && cd ..
+          cd SexyUIEditor-Linux && zip -r ../SexyUIEditor-${{ github.ref_name }}-Linux.zip . && cd ..
+          cd SexyUIEditor-macOS && zip -r ../SexyUIEditor-${{ github.ref_name }}-macOS.zip . && cd ..
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: SexyUIEditor-${{ github.ref_name }}.zip
+          files: |
+            SexyUIEditor-${{ github.ref_name }}-Windows.zip
+            SexyUIEditor-${{ github.ref_name }}-Linux.zip
+            SexyUIEditor-${{ github.ref_name }}-macOS.zip
           body: |
             SexyUI Editor ${{ github.ref_name }}
 
-            ### 使用说明
-            1. 下载 ZIP 并解压
-            2. 运行 SexyUIEditor.exe
-            3. 如果需要使用 .NET 版本的资源预览，请手动将 `Content` 和 `pak` 文件夹复制到解压目录
+            ### Downloads
+            | Platform | File |
+            |----------|------|
+            | Windows | SexyUIEditor-${{ github.ref_name }}-Windows.zip |
+            | Linux | SexyUIEditor-${{ github.ref_name }}-Linux.zip |
+            | macOS | SexyUIEditor-${{ github.ref_name }}-macOS.zip |
+
+            ### Usage
+            1. Download the ZIP for your platform and extract
+            2. Windows: Run SexyUIEditor.exe
+            3. Linux/macOS: Run SexyUIEditor (may need `chmod +x SexyUIEditor`)
+            4. Resource files (Content and pak directories) are included in the package
           draft: false
           prerelease: false

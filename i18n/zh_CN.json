@@ -309,7 +309,7 @@
     "interface.confirm_remove_text": "确定要删除此界面吗？",
     "interface.cannot_remove_main": "无法删除主界面",
     "about.title": "关于 SexyUIEditor",
-    "about.text": "SexyUIEditor v1.1\n\nSexy 框架可视化 UI 编辑器。\n支持拖拽式布局设计、代码生成和资源管理。\n\nCopyright (C) 2026 StackAndPointer",
+    "about.text": "SexyUIEditor v1.2\n\nSexy 框架可视化 UI 编辑器。\n支持拖拽式布局设计、代码生成和资源管理。\n\nCopyright (C) 2026 StackAndPointer",
     "ext.dialog_title": "自定义组件",
     "ext.basic_info": "基本信息",
     "ext.class_name": "类名:",

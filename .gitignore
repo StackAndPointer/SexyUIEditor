@@ -126,9 +126,9 @@ cython_debug/
 # Example files
 examples/
 
-# Resource files (too large)
-pak/
-Content/
+# Resource files (managed by Git LFS)
+# pak/ and Content/ are now tracked via Git LFS
+# Remove from gitignore to allow LFS tracking
 
 # OS files
 .DS_Store

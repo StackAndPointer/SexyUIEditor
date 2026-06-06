@@ -309,7 +309,7 @@
     "interface.confirm_remove_text": "Are you sure you want to remove this interface?",
     "interface.cannot_remove_main": "Cannot remove main interface",
     "about.title": "About SexyUIEditor",
-    "about.text": "SexyUIEditor v1.1\n\nA visual UI editor for the Sexy Framework.\nSupports drag-and-drop layout design, code generation, and resource management.\n\nCopyright (C) 2026 StackAndPointer",
+    "about.text": "SexyUIEditor v1.2\n\nA visual UI editor for the Sexy Framework.\nSupports drag-and-drop layout design, code generation, and resource management.\n\nCopyright (C) 2026 StackAndPointer",
     "ext.dialog_title": "Custom Component",
     "ext.basic_info": "Basic Information",
     "ext.class_name": "Class Name:",

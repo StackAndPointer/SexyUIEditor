@@ -1,0 +1,7 @@
+# Git LFS configuration for large resource files
+
+# Content directory - game resources for .NET version
+Content/** filter=lfs diff=lfs merge=lfs -text
+
+# pak directory - packed resources
+pak/** filter=lfs diff=lfs merge=lfs -text
