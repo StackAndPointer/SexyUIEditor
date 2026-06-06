@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QMenu
-from PyQt6.QtCore import Qt, pyqtSignal
+from core.qt_compat import (
+    QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QMenu,
+    Qt, Signal
+)
 from core.project import Project
 from core.i18n import tr
 
 
 class ObjectTree(QWidget):
-    widget_selected = pyqtSignal(str)
-    widget_deleted = pyqtSignal(str)
+    widget_selected = Signal(str)
+    widget_deleted = Signal(str)
 
     def __init__(self, project: Project, parent=None):
         super().__init__(parent)

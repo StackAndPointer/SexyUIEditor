@@ -3,14 +3,12 @@
 Custom Component Dialog
 Dialog for creating and editing custom extension components.
 """
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout,
     QLineEdit, QTextEdit, QPushButton, QCheckBox,
     QFileDialog, QMessageBox, QListWidget, QListWidgetItem,
-    QComboBox, QGroupBox, QLabel, QWidget, QSplitter
+    QComboBox, QGroupBox, QLabel, QWidget, QSplitter, Qt, QIcon
 )
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QIcon
 
 from core.i18n import tr
 from core.extension_manager import ExtensionManager, ExtensionComponentDef, create_default_properties

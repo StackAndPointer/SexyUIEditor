@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QWidget
-from PyQt6.QtCore import Qt, QRect
-from PyQt6.QtGui import QPainter, QColor, QPen, QBrush, QFont, QPixmap
+from core.qt_compat import (
+    QDialog, QVBoxLayout, QWidget, Qt, QRect,
+    QPainter, QColor, QPen, QBrush, QFont, QPixmap
+)
 from core.project import Project
 from core.resource_manager import ResourceManager
 from core.i18n import tr

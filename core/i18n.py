@@ -2,7 +2,7 @@
 import json
 import os
 import locale
-from PyQt6.QtCore import pyqtSignal, QObject
+from core.qt_compat import Signal, QObject, QSettings
 
 _I18N_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "i18n")
 
@@ -16,7 +16,7 @@ class I18nManager(QObject):
     _instance = None
     _translations = {}
     _current_locale = "zh_CN"
-    locale_changed = pyqtSignal(str)
+    locale_changed = Signal(str)
 
     @classmethod
     def instance(cls):
@@ -40,12 +40,10 @@ class I18nManager(QObject):
         return "en"
 
     def get_saved_locale(self) -> str:
-        from PyQt6.QtCore import QSettings
         settings = QSettings("SexyUIEditor", "SexyUIEditor")
         return settings.value("language", "", type=str)
 
     def save_locale(self, locale_name: str):
-        from PyQt6.QtCore import QSettings
         settings = QSettings("SexyUIEditor", "SexyUIEditor")
         settings.setValue("language", locale_name)
 

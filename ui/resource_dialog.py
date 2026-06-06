@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QDialog, QVBoxLayout, QHBoxLayout, QTabWidget, QWidget,
     QTableWidget, QTableWidgetItem, QPushButton, QFileDialog,
-    QInputDialog, QMessageBox, QHeaderView, QSpinBox
+    QInputDialog, QMessageBox, QHeaderView, QSpinBox, Qt
 )
-from PyQt6.QtCore import Qt
 from core.resource_manager import ResourceManager
 from core.i18n import tr
 from ui.dark_titlebar import set_transparent_titlebar

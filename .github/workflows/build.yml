@@ -169,14 +169,14 @@ jobs:
 
       - name: Build with Nuitka
         run: |
-          python -m nuitka --standalone --jobs=$(sysctl -n hw.ncpu) \
+          QT_BINDING=pyside6 python -m nuitka --standalone --jobs=$(sysctl -n hw.ncpu) \
             --output-filename=SexyUIEditor --output-dir=dist \
             --company-name=StackAndPointer --product-name=SexyUIEditor \
             --file-description="SexyUI & PVZ UI Editor" \
             --copyright="Copyright (C) 2026 StackAndPointer" \
             --file-version=1.2.0.0 --product-version=1.2.0.0 \
             --macos-app-icon=resources/icons/icon.png \
-            --enable-plugin=pyqt6 \
+            --enable-plugin=pyside6 \
             --include-package=core --include-package=ui \
             --include-data-dir=i18n=i18n \
             --include-data-dir=resources=resources \

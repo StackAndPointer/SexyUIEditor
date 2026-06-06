@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QWidget, QVBoxLayout, QFormLayout, QScrollArea,
     QLineEdit, QSpinBox, QDoubleSpinBox, QCheckBox,
-    QComboBox, QPushButton, QLabel, QGroupBox, QColorDialog
+    QComboBox, QPushButton, QLabel, QGroupBox, QColorDialog,
+    Qt, Signal, QColor
 )
-from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QColor
 from core.project import Project, WidgetInstance
 from core.component_registry import ComponentRegistry, PropType
 from core.resource_manager import ResourceManager
@@ -15,7 +14,7 @@ from ui.event_config import EventConfigDialog
 
 
 class PropertyPanel(QWidget):
-    property_changed = pyqtSignal(str, str, object)
+    property_changed = Signal(str, str, object)
 
     def __init__(self, project: Project, parent=None):
         super().__init__(parent)

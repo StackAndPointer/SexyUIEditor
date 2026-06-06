@@ -2,8 +2,7 @@
 import sys
 import ctypes
 from ctypes import c_int, byref, sizeof
-from PyQt6.QtWidgets import QWidget
-from PyQt6.QtCore import QTimer
+from core.qt_compat import QWidget, QTimer
 
 
 def set_transparent_titlebar(widget: QWidget):

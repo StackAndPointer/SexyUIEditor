@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt6.QtWidgets import QWidget, QScrollArea
-from PyQt6.QtCore import Qt, pyqtSignal, QPoint, QRect, QSize, QEvent
-from PyQt6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPixmap, QMouseEvent, QWheelEvent
+from core.qt_compat import (
+    QWidget, QScrollArea, Qt, Signal, QPoint, QRect, QSize, QEvent,
+    QPainter, QPen, QBrush, QColor, QFont, QPixmap, QMouseEvent, QWheelEvent
+)
 from core.project import Project, WidgetInstance
 from core.component_registry import ComponentRegistry
 from core.resource_manager import ResourceManager
@@ -57,10 +58,10 @@ class _CanvasWidget(QWidget):
 
 
 class DesignCanvas(QScrollArea):
-    widget_selected = pyqtSignal(str)
-    widget_moved = pyqtSignal(str, int, int)
-    widget_resized = pyqtSignal(str, int, int)
-    widget_context_menu = pyqtSignal(str, QPoint)
+    widget_selected = Signal(str)
+    widget_moved = Signal(str, int, int)
+    widget_resized = Signal(str, int, int)
+    widget_context_menu = Signal(str, QPoint)
 
     def __init__(self, project: Project, parent=None):
         super().__init__(parent)

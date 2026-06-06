@@ -2,12 +2,11 @@
 import os
 import json
 import uuid
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QMainWindow, QDockWidget, QToolBar, QFileDialog,
-    QStatusBar, QMessageBox, QSplitter, QTabWidget, QLabel, QLineEdit, QMenu, QComboBox
+    QStatusBar, QMessageBox, QSplitter, QTabWidget, QLabel, QLineEdit, QMenu, QComboBox,
+    Qt, QSize, QSettings, QAction, QIcon, QKeySequence, QDragEnterEvent, QDropEvent, QActionGroup
 )
-from PyQt6.QtCore import Qt, QSize, QSettings
-from PyQt6.QtGui import QAction, QIcon, QKeySequence, QDragEnterEvent, QDropEvent, QActionGroup
 from core.i18n import tr, I18nManager
 from core.project import Project
 from core.undo_manager import UndoManager
@@ -449,7 +448,7 @@ class MainWindow(QMainWindow):
                         break
             
             if has_images:
-                from PyQt6.QtWidgets import QMessageBox
+                from core.qt_compat import QMessageBox
                 msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Icon.Warning)
                 msg.setWindowTitle(tr("warning.title", "Warning"))

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem,
     QPushButton, QInputDialog, QMessageBox, QMenu, QDialog, QFormLayout,
-    QLineEdit, QComboBox, QLabel
+    QLineEdit, QComboBox, QLabel, Qt, Signal, QCursor
 )
-from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QCursor
 from core.i18n import tr
 from core.project import Project
 
@@ -60,9 +58,9 @@ class AddInterfaceDialog(QDialog):
 
 
 class InterfacePanel(QWidget):
-    interface_changed = pyqtSignal(str)
-    interface_added = pyqtSignal(str)
-    interface_removed = pyqtSignal(str)
+    interface_changed = Signal(str)
+    interface_added = Signal(str)
+    interface_removed = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem,
-    QHeaderView, QPushButton, QHBoxLayout, QMenu
+    QHeaderView, QPushButton, QHBoxLayout, QMenu, Qt,
+    Signal, QMimeData, QDrag, QAction
 )
-from PyQt6.QtCore import Qt, pyqtSignal, QMimeData
-from PyQt6.QtGui import QDrag, QAction
 from core.component_registry import ComponentRegistry
 from core.i18n import tr
 from core.extension_manager import ExtensionManager
@@ -20,7 +19,7 @@ _CATEGORY_ICONS = {
 
 
 class ComponentToolbox(QWidget):
-    widget_added = pyqtSignal(str, int, int)
+    widget_added = Signal(str, int, int)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -107,7 +106,7 @@ class ComponentToolbox(QWidget):
             self._populate()
 
     def _delete_component(self, class_name: str, platform: str):
-        from PyQt6.QtWidgets import QMessageBox
+        from core.qt_compat import QMessageBox
         reply = QMessageBox.question(
             self, tr("ext.delete_title", "Delete Component"),
             tr("ext.delete_confirm", "Are you sure you want to delete '{}'?").format(class_name),

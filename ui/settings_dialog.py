@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QDialog, QVBoxLayout, QFormLayout, QLineEdit,
     QSpinBox, QCheckBox, QPushButton, QHBoxLayout,
-    QListWidget, QGroupBox, QComboBox, QLabel
+    QListWidget, QGroupBox, QComboBox, QLabel, Qt
 )
-from PyQt6.QtCore import Qt
 from core.project import Project, ProjectSettings
 from core.resource_manager import ResourceManager
 from core.code_generator import CodeGenerator

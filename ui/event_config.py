@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QDialog, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem,
     QPushButton, QLabel, QMenu, QComboBox, QLineEdit, QFormLayout,
-    QWidget, QAbstractItemView, QMessageBox
+    QWidget, QAbstractItemView, QMessageBox, Qt, QTimer, QCursor
 )
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QCursor
 from core.i18n import tr
 from core.project import WidgetInstance, EventAction, Project
 from core.predefined_actions import (

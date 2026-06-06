@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-from PyQt6.QtWidgets import QApplication
+from core.qt_compat import QApplication
 
 from ui.main_window import MainWindow
 from core.i18n import I18nManager

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from PyQt6.QtWidgets import (
+from core.qt_compat import (
     QDialog, QVBoxLayout, QHBoxLayout, QLineEdit, QListWidget,
     QListWidgetItem, QLabel, QPushButton, QSplitter, QWidget,
-    QAbstractItemView, QScrollArea, QSlider
+    QAbstractItemView, QScrollArea, QSlider, Qt, Signal, QSize,
+    QRect, QPixmap, QImage, QIcon, QPainter
 )
-from PyQt6.QtCore import Qt, pyqtSignal, QSize, QRect
-from PyQt6.QtGui import QPixmap, QImage, QIcon, QPainter
 from core.i18n import tr
 import os
 import xml.etree.ElementTree as ET

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QTabWidget, QTextEdit, QPushButton, QHBoxLayout, QFileDialog, QComboBox, QLabel, QMessageBox
-from PyQt6.QtGui import QFont, QSyntaxHighlighter, QTextCharFormat, QColor
-from PyQt6.QtCore import QRegularExpression, QSettings
+from core.qt_compat import (
+    QDialog, QVBoxLayout, QTabWidget, QTextEdit, QPushButton, QHBoxLayout,
+    QFileDialog, QComboBox, QLabel, QMessageBox, QFont, QSyntaxHighlighter,
+    QTextCharFormat, QColor, QRegularExpression, QSettings
+)
 from core.i18n import tr
 from ui.dark_titlebar import set_transparent_titlebar
 
